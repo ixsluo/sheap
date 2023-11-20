@@ -1,0 +1,112 @@
+SHEAP
+=====
+
+Stochastic Hyperspace Embedding And Projection --- [publication link](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.11.041026)
+
+Clone from the [original link](https://bitbucket.org/bshires/sheap) but without binary files in example. See original link.
+
+Modified to satisfy longer label up to 240 characters.
+
+![SHEAP-logo](images/sheap-logo.png)
+
+Installation
+============
+
+Execute the following to perform a default installation:
+
+    make && make install && make neat
+
+The executable "sheap" will be placed in sheap/bin, which you should add to your path.
+
+Usage
+=====
+
+    sheap [OPTIONS] < in.xyz 2> [MESSAGES] > [out.xyz]
+
+    Options list
+    ============
+
+    Help
+    -h       : Output this message
+   
+    Input control
+    -read     : Format of input file. Options: vec, old, xyz [xyz]
+    -m        : Location of seperate meta-data file, format:
+                ...
+                H x y {z} file_label num_atoms formula "symmetry" volume energy count
+                ...
+   
+    Output control
+    -v       : Verbose
+    -q       : Quiet
+    -grad    : Test gradient against numerical scheme - does not carry out optimisation
+   
+    Dimensionality of map
+    -dim N   : Dimensionality of map [3]
+   
+    Normalize source data such that each variable has stddev of 1
+    -scale    : Set normalize to true [false]
+   
+    Thresholds for combining structures
+    -st R    : Similarity threshold [0.0]
+    -et R    : Cost threshold [0.0]
+   
+    Standard algorithms
+    -tsne    : Use standard t-SNE algorithm
+    -umap    : Use standard UMAP algorithm
+   
+    Manifold learning scheme
+    -p R     : Use perplexity algorithm to compute weights and set perplexity [15.0]
+    -k N     : Use K-NN algorithm to compute weights and set K [15]
+   
+    Embedding initialisation
+    -init    : Stop after initialising low-dimensional embedding - for doing random projection or pca
+    -up      : Use random uniform packing to initialise low-dimensional embedding [default is to use random projection]
+    -f R     : Packing fraction for random uniform packing initialisation of low-dimensional embedding [0.5]
+    -pca     : Use pca to initialise low-dimensional embedding [default is to use random projection]
+    -pc R    : Compression factor to apply to initialisation of low_dimensional embedding [10.0]
+   
+    Cost function
+    -kl      : Use KL-divergence loss function - only compatable with perplexity initialisation of weights
+    -ce      : Use cross-entropy loss function [default]
+   
+    Optimisation scheme
+    -tpsd    : Use two point steepest descent optimisation algorithm [default]
+      -tol R : Tolerance for optimisation [1e-8]
+      -ne N  : Number of steps to apply early exaggeration [200]
+      -se R  : Size of exaggeration [5.0]
+      -track : Track the optimisation [false]
+                - generates sheap.track file
+    -sgd     : Use stochastic gradient descent optimisation algorithm
+      -neg N : Number of negative samples per positive sample [1]
+      -al R  : Alpha [1.0]
+                - initial step size
+    -n  N    : Maximum number of iterations [10000]
+                - sets total for SGD
+    -t       : Trace the optimisation [false]
+    -ts N    : Output layout every number of steps [1]
+   
+    Hard sphere growth (TPSD only)
+    -hs      : Grow hard spheres
+    -cs R    : Hard sphere core strength [1.0]
+    -gs N    : Number of steps over which to grow hard spheres [500]
+    -grtol R : Tolerence for starting hard sphere growth (multiplies -tol) [2.0]
+                - must be greater than 1.0
+    -rs R    : Sphere radius [0.01 (2D), 0.02 (3D)]
+                - if negative, computes suitable value from map layout at onset of growth
+
+Examples
+========
+
+Find walkthroughs on how to generate SHEAP maps for a number of example data-sets in the "examples" folder. Click on the maps below to go to the corresponding walkthrough.
+
+[![LJ13](images/links/LJ13.png)](examples/LJ13) [![LJ38](images/links/LJ38.png)](examples/LJ38)
+
+[![carbon](images/links/carbon.png)](examples/carbon) [![CHNO](images/links/CHNO.png)](examples/CHNO)
+
+The above maps were generated with gnuplot - the commands for generating them are given in the corresponding examples folders.
+
+Chemiscope
+----------
+
+SHEAP maps can also be plotted with the online visualization tool [chemiscope](https://chemiscope.org/), which enables interactive viewing of the structures corresponding to each point. This requires the map and structure information to be combined into a .json file, for which we provide the script "xyz2json.sh", found in sheap/bin. See the example on [LJ13](examples/LJ13) for further details.
