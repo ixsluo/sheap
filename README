@@ -3,9 +3,9 @@ SHEAP
 
 Stochastic Hyperspace Embedding And Projection --- [publication link](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.11.041026)
 
-Clone from the [original link](https://bitbucket.org/bshires/sheap) but without binary files in example. See original link.
+Clone from the [original link](https://bitbucket.org/bshires/sheap) but without binary files in examples. Please see original link if you need.
 
-Modified to satisfy longer label up to 240 characters.
+Modified to satisfy long label up to 240 characters.
 
 ![SHEAP-logo](images/sheap-logo.png)
 
